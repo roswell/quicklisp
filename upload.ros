@@ -1,0 +1,26 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp(ql:quickload '(:roswell.github.utils) :silent t)
+  )
+
+(defpackage :ros.script.upload.3844232468
+  (:use :cl))
+(in-package :ros.script.upload.3844232468)
+
+(defun main (command &rest args)
+  (cond ((equal command "upload")
+         ;;owner repo release path
+         (roswell.github.utils:github 
+          (first args) ;; path
+          (second args) ;;release
+          (third args) ;;owner
+          (fourth args) ;;repo
+          t) ;; force
+         (terpri))))
+
+;;; vim: set ft=lisp lisp:
